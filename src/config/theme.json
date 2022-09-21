@@ -1,0 +1,24 @@
+{
+  "theme": {
+    "primaryColor": "#F44F4F",
+    "lightPrimaryColor": "#FF9999",
+    "darkPrimaryColor": "#C1272D",
+    "black": "#121212",
+    "accentColor": "#5F5F5F",
+    "successColor": "#74DD9E",
+    "lightGray": "#BBBBBB",
+    "offWhite": "#F0F0F0",
+    "lightRed": "#FFE9E9",
+    "shadow": {
+      "shadowColor": "#F44F4F",
+      "shadowOffset": {
+        "width": 0,
+        "height": 1
+      },
+      "shadowOpacity": 0.4,
+      "shadowRadius": 3.22,
+
+      "elevation": 5
+    }
+  }
+}
