@@ -13,6 +13,7 @@ export default function ({ children }: MySafeAreaViewProps) {
         paddingTop: getStatusBarHeight(),
         paddingHorizontal: 20,
         flex: 1,
+        backgroundColor: "#fff",
       }}
     >
       {children}

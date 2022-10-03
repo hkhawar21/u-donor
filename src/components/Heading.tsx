@@ -18,6 +18,7 @@ export default function (props: MyTextProps) {
 const styles = StyleSheet.create({
   text: {
     fontFamily: "Poppins_700Bold",
+    color: "#121212",
   },
   h1: {
     fontSize: 40,

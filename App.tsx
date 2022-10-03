@@ -9,14 +9,19 @@ import {
   Poppins_900Black,
 } from "@expo-google-fonts/poppins";
 import GlobalAppProvider from "providers/GlobalAppProvider";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AuthStackNavigator from "navigators/AuthStackNavigator";
+import * as SplashScreen from "expo-splash-screen";
+import { View } from "react-native";
+
+SplashScreen.preventAutoHideAsync();
 
 function MainApp() {
   return <AuthStackNavigator />;
 }
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -26,12 +31,32 @@ export default function App() {
     Poppins_900Black,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else
-    return (
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+      setAppIsReady(true);
+    }
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded || !appIsReady) {
+    return null;
+  }
+
+  return (
+    <View
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      onLayout={onLayoutRootView}
+    >
       <GlobalAppProvider>
         <MainApp />
       </GlobalAppProvider>
-    );
+    </View>
+  );
 }

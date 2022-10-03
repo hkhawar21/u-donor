@@ -7,8 +7,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { Eye, EyeOff } from "react-native-feather";
+import Text from "./Text";
 
-export default function TextInput(props: TextInputProps) {
+interface MyTextInputProps extends TextInputProps {
+  error?: string;
+  label?: string;
+}
+
+export default function TextInput(props: MyTextInputProps) {
   const { textContentType, style } = props;
   const { primaryColor, shadow } = useTheme();
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -19,7 +25,7 @@ export default function TextInput(props: TextInputProps) {
 
   const containerFocus = {
     borderColor: primaryColor,
-    borderWidth: 3,
+    borderWidth: 1,
     ...shadow,
     shadowColor: primaryColor,
   };
@@ -31,15 +37,20 @@ export default function TextInput(props: TextInputProps) {
   }
 
   return (
-    <View style={[styles.container, focus ? containerFocus : null, style]}>
-      <NativeTextInput
-        secureTextEntry={!showPassword}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        {...props}
-        style={[styles.input]}
-      />
-      {isPasswordField ? <EyeIcon /> : null}
+    <View>
+      {props.label && (
+        <Text style={{ fontSize: 14, marginBottom: 4 }}>{props.label}</Text>
+      )}
+      <View style={[styles.container, focus ? containerFocus : null, style]}>
+        <NativeTextInput
+          secureTextEntry={!showPassword}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          {...props}
+          style={[styles.input]}
+        />
+        {isPasswordField ? <EyeIcon /> : null}
+      </View>
     </View>
   );
 }

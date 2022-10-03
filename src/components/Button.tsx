@@ -6,8 +6,9 @@ import {
   TextStyle,
   TouchableOpacityProps,
   TouchableOpacity,
+  ViewStyle,
 } from "react-native";
-import { Text } from "components";
+import Text from "./Text";
 import { useTheme } from "providers/ThemeProvider";
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -15,32 +16,39 @@ interface ButtonProps extends TouchableOpacityProps {
   textStyle?: TextStyle;
   loading?: boolean;
   textProps?: TextProps;
+  outlined?: boolean;
+  style?: ViewStyle;
 }
 
 export default function (props: ButtonProps) {
-  const { lightGray, shadow, primaryColor } = useTheme();
+  const { lightGray, shadow, primaryColor, black } = useTheme();
   const {
     children,
     textStyle,
     textProps,
     loading = false,
     disabled = false,
+    outlined = false,
+    style,
   } = props;
 
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: primaryColor,
+      backgroundColor: outlined ? "transparent" : primaryColor,
       padding: 15,
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 10,
       ...shadow,
+      shadowColor: outlined ? black : primaryColor,
+      borderWidth: 1,
+      borderColor: outlined ? black : primaryColor,
     },
     text: {
-      color: "white",
+      color: outlined ? black : "#fff",
       fontSize: 14,
-      fontWeight: "bold",
       textTransform: "uppercase",
+      fontFamily: "Poppins_600SemiBold",
     },
     disabled: {
       backgroundColor: lightGray,
@@ -50,8 +58,8 @@ export default function (props: ButtonProps) {
   return (
     <TouchableOpacity
       disabled={loading || disabled}
-      style={[styles.button, props.style]}
       {...props}
+      style={[styles.button, style]}
     >
       {loading ? (
         <ActivityIndicator color="white" />
